@@ -1,0 +1,9 @@
+Source: memx-utils-gui-cv45
+Maintainer: MemryX <no-reply@memryx.com>
+Build-Depends: debhelper (>= 10), qt5-qmake, libopencv-dev, python3-opencv, libqt5gui5, libqt5widgets5
+
+Package: memx-utils-gui-cv45
+Architecture: amd64 arm64 riscv64
+Conflicts: memx-utils-gui-cv46, memx-utils-gui-cv45d
+Depends: libopencv-dev, ${shlibs:Depends}, ${misc:Depends}
+Description: MemryX Utilities Suite -- GUI Toolkit

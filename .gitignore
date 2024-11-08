@@ -1,0 +1,8 @@
+build/
+.vscode
+.vs/
+onnxruntime*
+*.vcxproj.user
+*.vcxproj.filters
+API_plugins/Onnxinfer/OnnxInfer/
+API_plugins/Onnxinfer/x64/

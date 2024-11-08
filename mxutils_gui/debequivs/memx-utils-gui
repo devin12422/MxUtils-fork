@@ -1,0 +1,6 @@
+Package: memx-utils-gui
+Version: 1.0.0-6
+Maintainer: MemryX <no-reply@memryx.com>
+Depends: memx-utils-gui-cv45 | memx-utils-gui-cv45d | memx-utils-gui-cv46
+Architecture: all
+Description: MemryX Utilities Suite -- GUI Toolkit

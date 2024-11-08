@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+
+DH_VERBOSE = 1
+
+include /usr/share/dpkg/pkg-info.mk
+include /usr/share/dpkg/architecture.mk
+
+%:
+	dh $@
+
+override_dh_install:
+	dh_install ../build/API_plugins/Onnxinfer/libonnxinfer.so opt/memryx/accl-plugins/
+	dh_install ../build/API_plugins/TfInfer/libtfinfer.so opt/memryx/accl-plugins/
+	dh_install ../build/API_plugins/TfliteInfer/libtfliteinfer.so opt/memryx/accl-plugins/
+	dh_install Deps/ort/include/onnxruntime/* opt/memryx/third-party/ort/onnxruntime/
+	dh_install Deps/ort/lib/$(DEB_HOST_GNU_CPU)/* opt/memryx/third-party/ort/lib/
+	dh_install Deps/tf/include_$(DEB_HOST_GNU_CPU)/* opt/memryx/third-party/tf/include/
+	dh_install Deps/tf/lib/$(DEB_HOST_GNU_CPU)/* opt/memryx/third-party/tf/lib/
+	dh_install Deps/tflite/$(DEB_HOST_GNU_CPU)/include/* opt/memryx/third-party/tflite/include/
+	dh_install Deps/tflite/$(DEB_HOST_GNU_CPU)/lib/* opt/memryx/third-party/tflite/lib/
+	dh_install Deps/tflite/$(DEB_HOST_GNU_CPU)/bin/* opt/memryx/third-party/tflite/bin/
+	dh_install pkg_misc/00-memx-prepost.conf etc/ld.so.conf.d/
+	
+#dh_install ../build/API_plugins/TfliteInfer/libtfliteinfer.so opt/memryx/accl-plugins/
+#dh_install Deps/tflite/$(DEB_HOST_GNU_CPU)/* opt/memryx/third-party/tflite/
+
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -lopt/memryx/accl-plugins/ -lopt/memryx/third-party/tf/lib/ -lopt/memryx/third-party/ort/lib/ -lopt/memryx/third-party/tflite/lib/ -lDeps/ort/lib/$(DEB_HOST_GNU_CPU)/ -lDeps/tf/lib/$(DEB_HOST_GNU_CPU)/ -lDeps/tflite/$(DEB_HOST_GNU_CPU)/lib/
+	
+#dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -lopt/memryx/accl-plugins/ -lopt/memryx/third-party/tf/lib/ -lopt/memryx/third-party/tflite/lib/ -lopt/memryx/third-party/ort/lib/ -lDeps/ort/lib/$(DEB_HOST_GNU_CPU)/ -lDeps/tf/lib/$(DEB_HOST_GNU_CPU)/ -lDeps/tflite/$(DEB_HOST_GNU_CPU)/lib/
+
+override_dh_auto_configure:
+override_dh_auto_build:
+override_dh_auto_test:
+
+override_dh_auto_install:
+	rm -rf ../build ; mkdir ../build ; cd ../build ; cmake .. ; make -j
+
+override_dh_auto_clean:

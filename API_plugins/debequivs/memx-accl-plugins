@@ -1,0 +1,6 @@
+Package: memx-accl-plugins
+Version: 1.0.0-6
+Maintainer: MemryX <no-reply@memryx.com>
+Depends: memx-accl-plugins-d11 | memx-accl-plugins-d12 | memx-accl-plugins-u22 | memx-accl-plugins-u24
+Architecture: all
+Description: MemryX Runtime API plugins for ONNX, TensorFlow, and TFLite

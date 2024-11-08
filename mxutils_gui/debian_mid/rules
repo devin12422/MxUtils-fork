@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+
+DH_VERBOSE = 1
+
+include /usr/share/dpkg/pkg-info.mk
+include /usr/share/dpkg/architecture.mk
+
+%:
+	dh $@
+
+override_dh_install:
+	dh_install ../build/libmxutils_gui.a usr/lib/$(DEB_HOST_GNU_CPU)-linux-gnu/
+	dh_install ../build/libmxutils_gui.so.$(DEB_VERSION_UPSTREAM) usr/lib/$(DEB_HOST_GNU_CPU)-linux-gnu/
+	dh_link usr/lib/$(DEB_HOST_GNU_CPU)-linux-gnu/libmxutils_gui.so.$(DEB_VERSION_UPSTREAM) usr/lib/$(DEB_HOST_GNU_CPU)-linux-gnu/libmxutils_gui.so
+	dh_install gui_view.h usr/include/memx/mxutils/
+	
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
+	
+override_dh_auto_configure:
+override_dh_auto_build:
+override_dh_auto_test:
+
+override_dh_auto_install:
+	rm -rf ../build ; mkdir ../build ; cd ../build ; cmake .. ; make -j && mv -v mxutils_gui/libmxutils_gui.so libmxutils_gui.so.$(DEB_VERSION_UPSTREAM) && mv -v mxutils_gui/libmxutils_gui_static.a libmxutils_gui.a
+
+override_dh_auto_clean:
